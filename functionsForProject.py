@@ -179,162 +179,11 @@ def ARIMA(month_age_df):
         mse = mean_squared_error(forecast, basic_month[40:45])
         result = x +  " MAE: " + str(mae) + " MSE: " + str(mse)
         results.append(result)
-    return results,forecasts
+    return results,forecasts        
 
-def graph_models1(month_age_df):
-    from statsmodels.tsa.arima.model import ARIMA
-
-    predictions = ["Under 1 year","1-4 years", "5-14 years", "15-24 years","25-34 years","35-44 years"
-                ,"45-54 years", "55-64 years","65-74 years","75-84 years","85 years and over","All Ages"]
-    for x in range(0,int(len(predictions)/2),2):
-        mask = month_age_df["Age Group"].isin([predictions[x]])
-        # Assuming month_age_df and mask are defined elsewhere in your code
-        basic_month = month_age_df[mask]
-        basic_month.dtypes
-        basic_month = basic_month.drop(['Age Group'], axis=1)
-        basic_month.set_index('Start Date', inplace=True)
-
-        # Fit the first ARIMA model
-        model1 = ARIMA(basic_month[0:40], order=(4, 0, 0))
-        model_fit1 = model1.fit()
-
-        # Fit the second ARIMA model with different parameters
-        model2 = ARIMA(basic_month, order=(4, 1, 0))
-        model_fit2 = model2.fit()
-
-        # Create a figure and a 1x2 grid of subplots
-        fig, axs = plt.subplots(1, 4, figsize=(15, 3))
-
-        # Plotting the first model's predictions
-#         basic_month.loc['Jan 2020':].plot(ax=axs[0])
-#         axs[0].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*2)
-#         # axs[0].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean())
-#         plot_predict(model_fit1, start='March 2023', end='September 2023', ax=axs[0])
-#         axs[0].set_title('ARMA Predictions For ' + predictions[x])
-
-        # Plotting the second model's predictions
-        basic_month.loc['Jan 2020':].plot(ax=axs[1])
-        axs[1].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*2)
-        plot_predict(model_fit2, start='March 2023', end='September 2023', ax=axs[1])
-        axs[1].set_title('ARIMA Predictions For ' + predictions[x])
-
-        # Adjust the layout to ensure there's enough space between the plots
-        plt.tight_layout()
-
-        # plt.show()
-
-        mask = month_age_df["Age Group"].isin([predictions[x+1]])
-        basic_month = month_age_df[mask]
-        basic_month.dtypes
-        basic_month = basic_month.drop(['Age Group'], axis=1)
-        basic_month.set_index('Start Date', inplace=True)
-
-        # Fit the first ARIMA model
-        model3 = ARIMA(basic_month[0:40], order=(4, 0, 0))
-        model_fit3 = model3.fit()
-
-        # Fit the second ARIMA model with different parameters
-        model4 = ARIMA(basic_month, order=(4, 1, 0))
-        model_fit4 = model4.fit()
-
-        # Create a figure and a 1x2 grid of subplots
-        # fig, axs = plt.subplots(1, 2, figsize=(15, 5))
-
-        # Plotting the first model's predictions
-#         basic_month.loc['Jan 2020':].plot(ax=axs[2])
-#         axs[2].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*5)
-#         plot_predict(model_fit3, start='March 2023', end='September 2023', ax=axs[2])
-#         axs[2].set_title('ARMA Predictions For ' + predictions[x + 1])
-
-        # Plotting the second model's predictions
-        basic_month.loc['Jan 2020':].plot(ax=axs[3])
-        axs[3].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*5)
-        plot_predict(model_fit4, start='March 2023', end='September 2023', ax=axs[3])
-        axs[3].set_title('ARIMA Predictions For ' + predictions[x + 1])
-
-        # Adjust the layout to ensure there's enough space between the plots
-        plt.tight_layout()
-
-        plt.show()
-        
-def graph_models2(month_age_df):
-    from statsmodels.tsa.arima.model import ARIMA
-    predictions = ["Under 1 year","1-4 years", "5-14 years", "15-24 years","25-34 years","35-44 years"
-                ,"45-54 years", "55-64 years","65-74 years","75-84 years","85 years and over","All Ages"]
-    for x in range(0,int(len(predictions)/2),2):
-        mask = month_age_df["Age Group"].isin([predictions[x + 6]])
-        # Assuming month_age_df and mask are defined elsewhere in your code
-        basic_month = month_age_df[mask]
-        basic_month.dtypes
-        basic_month = basic_month.drop(['Age Group'], axis=1)
-        basic_month.set_index('Start Date', inplace=True)
-
-        # Fit the first ARIMA model
-        model1 = ARIMA(basic_month[0:40], order=(4, 0, 0))
-        model_fit1 = model1.fit()
-
-        # Fit the second ARIMA model with different parameters
-        model2 = ARIMA(basic_month, order=(4, 1, 0))
-        model_fit2 = model2.fit()
-
-        # Create a figure and a 1x2 grid of subplots
-        fig, axs = plt.subplots(1, 4, figsize=(15, 3))
-
-        # Plotting the first model's predictions
-#         basic_month.loc['Jan 2020':].plot(ax=axs[0])
-#         axs[0].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*2)
-
-#         plot_predict(model_fit1, start='March 2023', end='September 2023', ax=axs[0])
-#         axs[0].set_title('ARMA Predictions For ' + predictions[x + 6])
-
-        # Plotting the second model's predictions
-        basic_month.loc['Jan 2020':].plot(ax=axs[1])
-        axs[1].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*2)
-        plot_predict(model_fit2, start='March 2023', end='September 2023', ax=axs[1])
-        axs[1].set_title('ARIMA Predictions For ' + predictions[x + 6])
-
-        # Adjust the layout to ensure there's enough space between the plots
-        plt.tight_layout()
-
-        # plt.show()
-
-        mask = month_age_df["Age Group"].isin([predictions[x+7]])
-        basic_month = month_age_df[mask]
-        basic_month.dtypes
-        basic_month = basic_month.drop(['Age Group'], axis=1)
-        basic_month.set_index('Start Date', inplace=True)
-
-        # Fit the first ARIMA model
-        model3 = ARIMA(basic_month[0:40], order=(4, 0, 0))
-        model_fit3 = model3.fit()
-
-        # Fit the second ARIMA model with different parameters
-        model4 = ARIMA(basic_month, order=(4, 1, 0))
-        model_fit4 = model4.fit()
-
-        # Create a figure and a 1x2 grid of subplots
-        # fig, axs = plt.subplots(1, 2, figsize=(15, 5))
-
-        # Plotting the first model's predictions
-#         basic_month.loc['Jan 2020':].plot(ax=axs[2])
-#         axs[2].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*5)
-#         plot_predict(model_fit3, start='March 2023', end='September 2023', ax=axs[2])
-#         axs[2].set_title('ARMA Predictions For ' + predictions[x + 7])
-
-        # Plotting the second model's predictions
-        basic_month.loc['Jan 2020':].plot(ax=axs[3])
-        axs[3].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*5)
-        plot_predict(model_fit4, start='March 2023', end='September 2023', ax=axs[3])
-        axs[3].set_title('ARIMA Predictions For ' + predictions[x + 7])
-
-        # Adjust the layout to ensure there's enough space between the plots
-        plt.tight_layout()
-    
-        plt.show()
-        
-def graph_results_predictions(month_age_df):
+def graph_results(models,month_age_df):
     sns.set_palette("magma")
-    from statsmodels.tsa.arima.model import ARIMA
+    
 
     predictions = ["Under 1 year","1-4 years", "5-14 years", "15-24 years","25-34 years","35-44 years"
                 ,"45-54 years", "55-64 years","65-74 years","75-84 years","85 years and over","All Ages"]
@@ -346,22 +195,14 @@ def graph_results_predictions(month_age_df):
         basic_month = basic_month.drop(['Age Group'], axis=1)
         basic_month.set_index('Start Date', inplace=True)
 
-        # Fit the first ARIMA model
-        model1 = ARIMA(basic_month[0:40], order=(4, 1, 0))
-        model_fit1 = model1.fit()
-
-        # Fit the second ARIMA model with different parameters
-        model2 = ARIMA(basic_month, order=(4, 1, 0))
-        model_fit2 = model2.fit()
-
         # Create a figure and a 1x2 grid of subplots
         fig, axs = plt.subplots(1, 4, figsize=(16, 5))
 
-#         Plotting the first model's predictions
+        #Plotting the first model's predictions
         basic_month.loc['Jan 2020':].plot(ax=axs[0])
         axs[0].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*2)
         # axs[0].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean())
-        plot_predict(model_fit1, start='March 2023', end='September 2023', ax=axs[0])
+        plot_predict(models[x], start='March 2023', end='September 2023', ax=axs[0])
         axs[0].set_title('AIRMA Predictions For ' + predictions[x])
         
         mask = month_age_df["Age Group"].isin([predictions[x+1]])
@@ -370,13 +211,11 @@ def graph_results_predictions(month_age_df):
         basic_month = basic_month.drop(['Age Group'], axis=1)
         basic_month.set_index('Start Date', inplace=True)
 
-        # Fit the first ARIMA model
-        model2 = ARIMA(basic_month[0:40], order=(4, 1, 0))
-        model_fit2 = model2.fit()
+     
         # Plotting the second model's predictions
         basic_month.loc['Jan 2020':].plot(ax=axs[1])
         axs[1].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*2)
-        plot_predict(model_fit2, start='March 2023', end='September 2023', ax=axs[1])
+        plot_predict(models[x+1], start='March 2023', end='September 2023', ax=axs[1])
         axs[1].set_title('ARIMA Predictions For ' + predictions[x+1])
 
         # Adjust the layout to ensure there's enough space between the plots
@@ -390,13 +229,11 @@ def graph_results_predictions(month_age_df):
         basic_month = basic_month.drop(['Age Group'], axis=1)
         basic_month.set_index('Start Date', inplace=True)
 
-        # Fit the first ARIMA model
-        model3 = ARIMA(basic_month[0:40], order=(4, 1, 0))
-        model_fit3 = model3.fit()
+        
 
         basic_month.loc['Jan 2020':].plot(ax=axs[2])
         axs[2].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*5)
-        plot_predict(model_fit3, start='March 2023', end='September 2023', ax=axs[2])
+        plot_predict(models[x+2], start='March 2023', end='September 2023', ax=axs[2])
         axs[2].set_title('ARMA Predictions For ' + predictions[x + 2])
         
         mask = month_age_df["Age Group"].isin([predictions[x+3]])
@@ -405,12 +242,11 @@ def graph_results_predictions(month_age_df):
         basic_month = basic_month.drop(['Age Group'], axis=1)
         basic_month.set_index('Start Date', inplace=True)
         
-        model4 = ARIMA(basic_month, order=(4, 1, 0))
-        model_fit4 = model4.fit()
+        
         # Plotting the second model's predictions
         basic_month.loc['Jan 2020':].plot(ax=axs[3])
         axs[3].set_ylim(0, basic_month['COVID-19 Deaths'].max() + basic_month['COVID-19 Deaths'].mean()*5)
-        plot_predict(model_fit4, start='March 2023', end='September 2023', ax=axs[3])
+        plot_predict(models[x+3], start='March 2023', end='September 2023', ax=axs[3])
         axs[3].set_title('ARIMA Predictions For ' + predictions[x + 3])
 
         # Adjust the layout to ensure there's enough space between the plots
